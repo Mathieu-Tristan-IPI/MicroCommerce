@@ -19,7 +19,7 @@ public class Product {
     @Length(min=3, max=20, message="La longueur du nom doit être comprise entre 3 et 20 caractères.")
     private String nom;
 
-    @Min(value=1, message="Le prix doit avoir une valeur minimum de 1.")
+    @Min(value=0, message="Le prix doit avoir une valeur minimum de 1, mettre 0 lancera une exception.")
     private int prix;
 
     private int prixAchat;
