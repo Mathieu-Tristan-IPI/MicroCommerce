@@ -66,6 +66,18 @@ public class ProductController {
         return response;
     }
 
+    //Récupérer la liste des produits ordonnées par ordre alphabétique
+    @ApiOperation(value="Récupère la liste des produits triés par ordre alphabétique")
+    @RequestMapping(value = "/TriProduits", method = RequestMethod.GET)
+    public MappingJacksonValue trierProduitsParOrdreAlphabetique() {
+        Iterable<Product> produits = productDao.findAllByOrderByNomAsc();
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
+        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
+        MappingJacksonValue produitsFiltres = new MappingJacksonValue(produits);
+        produitsFiltres.setFilters(listDeNosFiltres);
+        return produitsFiltres;
+    }
+
 //    @GetMapping(value = "/test/produits/{prixLimit}")
 //    public List<Product> testDeRequetes(@PathVariable int prixLimit) {
 //        return productDao.findByPrixGreaterThan(prixLimit);
