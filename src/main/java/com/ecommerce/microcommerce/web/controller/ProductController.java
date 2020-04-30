@@ -22,6 +22,8 @@ import java.util.*;
 import java.net.URI;
 import java.util.List;
 
+import static com.google.common.collect.Lists.reverse;
+
 @Api(description="API pour opérations de CRUD sur des produits.")
 @RestController
 public class ProductController {
@@ -51,6 +53,17 @@ public class ProductController {
             throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est introuvable.");
         }
         return produit;
+    }
+
+    @ApiOperation(value="Affiche une map avec les produits et leur marge")
+    @GetMapping(value = "/AdminProduits")
+    public HashMap calculerMargeProduit() {
+        List<Product> produits = productDao.findAll();
+        HashMap response = new HashMap<String,Integer>();
+        for(Product produit : produits){
+            response.put(produit.toString(),produit.getPrix() - produit.getPrixAchat());
+        }
+        return response;
     }
 
 //    @GetMapping(value = "/test/produits/{prixLimit}")
